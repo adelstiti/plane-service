@@ -1,0 +1,34 @@
+{
+  "name": "planeservice",
+  "version": "1.0.0",
+  "description": "Plane microservice",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adelstiti/plane-service.git"
+  },
+  "keywords": [
+    "microservices",
+    "nodejs",
+    "eureka"
+  ],
+  "author": "Adel Stiti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adelstiti/plane-service/issues"
+  },
+  "homepage": "https://github.com/adelstiti/plane-service#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-validator": "^6.14.0",
+    "mongoose": "^6.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
