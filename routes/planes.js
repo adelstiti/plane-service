@@ -80,13 +80,14 @@ router.get('/:id',  async (req, res) => {
         check('name').not().isEmpty().withMessage('Name Is Required'),
         check('capacity').not().isEmpty().withMessage('Capacity Is Required').isInt({min:0}).withMessage('capacity is not int or amount is less than zero'),
         check('model').not().isEmpty().withMessage('Model Is Required'),
-		check('code').not().isEmpty().withMessage('Code Is Required').custom(value => {
-            return Plane.findOne({code: value})
-               .then((plane) => {
-				   if(plane) {
-					return Promise.reject('Code plane is already exist')
-				   }
-               })
+		check('code').not().isEmpty().withMessage('Code Is Required').custom(
+			(value) => {
+				return Plane.findOne({code: value})
+				.then((plane) => {
+					if(plane) {
+						return Promise.reject('Code plane is already exist')
+					}
+				})
          }),
     ],async (req,res) => {
 
@@ -179,4 +180,6 @@ router.get('/capacity/:id',  async (req, res) => {
 		res.status(500).send('Server error');
 	}
 });
+
+
 module.exports = router;
