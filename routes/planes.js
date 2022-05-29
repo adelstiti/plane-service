@@ -50,7 +50,10 @@ router.get('/', async (req,res) => {
 			.then(planes => {
 				res.status(200).json({planes,next,previous});
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				console.log(err)
+				res.status(500).send('Database Error');
+			});
 
 		} catch (err) {
         console.error(err.message);

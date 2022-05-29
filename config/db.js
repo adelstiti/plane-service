@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // Connect Database
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI)
+        await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/flightReservation')
 
         console.log('MongoDB connected');
     } catch (err) {
