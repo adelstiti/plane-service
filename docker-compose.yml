@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mongoDB:
+    container_name: mongoDB
+    image: mongo
+    ports:
+      - '27017:27017'
+  eurekaServer:
+    container_name: eurekaServer
+    image: eurekaserver:dev
+    ports:
+      - '8761:8761'
+  nodeapp:
+    container_name: nodeapp
+    restart: always
+    build: .
+    ports:
+      - '5000:5000'
+    depends_on:
+      - 'mongoDB'
+      - 'eurekaServer'
+    environment:
+      EUREKA_SERVER_PORT: 8761
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: eurekaServer
+      MONGO_URI: mongodb://mongoDB:27017/flightReservation
+

@@ -8,7 +8,8 @@ RUN npm install
 
 COPY . .
 
-ENV MONGO_URI=mongodb+srv://root:flight_password@cluster0.jl56l.mongodb.net/flightReservation?retryWrites=true&w=majority
+ENV MONGO_URI=mongodb://192.168.1.8:27017/flightReservation
+ENV EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=192.168.1.8
 
 EXPOSE 5000
 
