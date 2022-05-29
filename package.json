@@ -24,6 +24,7 @@
   "homepage": "https://github.com/adelstiti/plane-service#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "eureka-js-client": "^4.5.0",
     "express": "^4.18.1",
     "express-validator": "^6.14.0",
     "mongoose": "^6.3.3"
