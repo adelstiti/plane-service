@@ -48,16 +48,16 @@ router.get('/', async (req,res) => {
 					.limit(limit)
 			})
 			.then(planes => {
-				res.status(200).json({planes,next,previous});
+				res.responseApiReturn(200,{planes,next,previous})
 			})
 			.catch(err => {
 				console.log(err)
-				res.status(500).send('Database Error');
+				res.responseApiReturn(500,{},'Database Error');
 			});
 
 		} catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+		res.responseApiReturn(500,{},'Server Error');
     }
 });
 
@@ -68,12 +68,12 @@ router.get('/:id',  async (req, res) => {
 	try {
 		const plane = await Plane.findById(req.params.id);
 
-		if (!plane) return res.status(404).json({ msg: 'Plane not found' });
+		if (!plane) return res.responseApiReturn(404,null,'Plane not found');
 
-        res.json(plane);
+        res.responseApiReturn(200,plane);
 	} catch (err) {
 		console.error(err.message);
-		res.status(500).send('Server error');
+		res.responseApiReturn(500,null,'Server Error');
 	}
 });
 
@@ -96,7 +96,7 @@ router.get('/:id',  async (req, res) => {
 
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(422).json({errors : errors.array()});
+			return res.responseApiReturn(422,null,'',errors.array());
         } 
 
         const {name, code, capacity, model, airline} = req.body;
@@ -112,11 +112,11 @@ router.get('/:id',  async (req, res) => {
 
             await newplane.save();
             
-            res.json(newplane);
+            res.responseApiReturn(200,newplane);
 
           } catch (err) {
-				res.status(500).send('Server Error');
-          }
+			res.responseApiReturn(500,null,'Server Error');
+		}
 
 });
 
@@ -130,12 +130,19 @@ router.put('/:id',  async (req, res) => {
 	try {
 		let plane = await Plane.findById(req.params.id);
 
-		if (!plane) return res.status(404).json({ msg: 'Plane not found' });
+		if (!plane) return res.responseApiReturn(404,null,'Plane not found');
 
 		if (code) {
 			let p = await Plane.findOne({code});
 			if (p && p.id == plane.id) {
-				return res.status(422).json({msg : 'Code plane is already exist'});
+				return res.responseApiReturn(422,null,'',[
+					{
+						"msg": "Code plane is already exist",
+						"param": "code",
+						"location": "body"
+					}
+				]);
+
 			}
 
 		}
@@ -145,10 +152,10 @@ router.put('/:id',  async (req, res) => {
 			{ new: true }
 		);
 
-		res.json(plane);
+		res.responseApiReturn(200,plane);
 	} catch (err) {
 		console.error(err.message);
-		res.status(500).send('Server error');
+		res.responseApiReturn(500,null,'Server Error');
 	}
 });
 
@@ -158,14 +165,14 @@ router.delete('/:id',  async (req, res) => {
 	try {
 		const plane = await Plane.findById(req.params.id);
 
-		if (!plane) return res.status(404).json({ msg: 'Plane not found' });
+		if (!plane) return res.responseApiReturn(404,null,'Plane not found');
 
 		await Plane.findByIdAndRemove(req.params.id);
 
-		res.json({ msg: 'Plane removed' });
+		res.responseApiReturn(200,null,'Plane removed');
 	} catch (err) {
 		console.error(err.message);
-		res.status(500).send('Server error');
+		res.responseApiReturn(500,null,'Server Error');
 	}
 });
 
@@ -175,12 +182,12 @@ router.get('/capacity/:id',  async (req, res) => {
 	try {
 		const plane = await Plane.findById(req.params.id);
 
-		if (!plane) return res.status(404).json({ msg: 'Plane not found' });
+		if (!plane) return res.responseApiReturn(404,null,'Plane not found');
 
-		res.json({ capacity : plane.capacity });
+		res.responseApiReturn(200,{ capacity : plane.capacity });
 	} catch (err) {
 		console.error(err.message);
-		res.status(500).send('Server error');
+		res.responseApiReturn(500,null,'Server Error');
 	}
 });
 
