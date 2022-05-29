@@ -1,6 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db');
-const path = require('path');
+const eurekaHelper = require('./helpers/eureka');
 require('dotenv').config();
 
 
@@ -32,5 +32,7 @@ app.get('/',(req,res) => {
 });
 
 const PORT = process.env.PORT || 5000 ;
+
+eurekaHelper.registerWithEureka('plane-service', PORT);
 
 app.listen(PORT,() => console.log(`Server Started on port ${PORT} `));
